@@ -27,16 +27,17 @@ This default config makes absolutely no sense, so use `script-opts/fastforward.c
 You can also use expressions like [+-*/]{number}, e.g. /2, *0.5, +1, -0.3...
 ]]
 local opts = {
-speed_increase = '+0.2', --  <--  here...
+decay_delay = 0.1,
+speed_increase = '+4.0', --  <--  here...
   -- Upper speed limit.
-  max_speed = 8,
+  max_speed = 12,
   -- Time to elapse until first slow down.
-  decay_delay = 2,
+  decay_delay_conf = 2.0,
   -- If you don't change the playback speed for `decay_delay` seconds,
   -- it will be decreased by `speed_decrease` at every
   -- `decay_interval` seconds automatically.
-  decay_interval = 0.5,
-  speed_decrease = '*0.9', -- <--    ...and here.
+  decay_interval = 0.1,
+  speed_decrease = '*0.01', -- <--    ...and here.
 }
 
 options.read_options(opts)
@@ -101,6 +102,9 @@ local function auto_slow_down()
 end
 
 local function speed_up()
+  if mp.get_property_number('speed') == opts.max_speed then opts.decay_delay = 0.1
+  else opts.decay_delay = opts.decay_delay_conf
+  end
   change_speed(opts.speed_increase)
 
   if timer == nil then
