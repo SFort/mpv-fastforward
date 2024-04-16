@@ -1,3 +1,7 @@
+# Fork changes
+ - When holding speedup, immediatly resume normal speed on release.
+ - Tweaked values
+
 # Fast-forward plugin
 A fast-forward plugin for MPV. I got the idea from [fastforward.lua][link].
 
